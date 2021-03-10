@@ -47,7 +47,7 @@ def reorder():
 			if resource_list[i][0] not in memoize_list and not(i>0 and resource_list[i-1][1]):
 				# if at 0 then valid, runnable first item
 				if i != 0:
-					print("HERE, NEED TO CHANGE {}".format(resource_list))
+					# print("HERE, NEED TO CHANGE {}".format(resource_list))
 					resource_list.insert(0, resource_list.pop(i))
 		
 				resource_list[0][1][1] = False
