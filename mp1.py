@@ -2,8 +2,6 @@
 # for current approach, stall if tanan possible user naggamit sa some resource and naay lain resource where sila ang naa sa first
 # to handle case when 1 user ra and 1< ang resources and dapat naay muqueue each (mawala if dili needed) or katong case stated
 
-
-import math
 from random import randint
 import gc
 
@@ -33,6 +31,8 @@ for i in range(1,len(os)+1):
 
 	os[i] = {key:value for (key,value) in avail_users}
 
+# test value
+#os = {1: {1: [2, True], 2: [5, True], 3: [4, True]}, 2: {1:[2, True], 3: [4,True]}, 3 : {3:[2, True]}, 4: {2: [1, True], 3 : [1, True]}, 5 : {3 : [2, True]} }
 
 # to delete del dic[list(dic)[0]]
 def reorder():
@@ -44,7 +44,7 @@ def reorder():
 #		print(resource_list)
 		for i in range(len(resource_list)):
 			# valid first item
-			if resource_list[i][0] not in memoize_list and not(i>0 and resource_list[i-1][1]):
+			if resource_list[i][0] not in memoize_list and not(i>0 and resource_list[0][1]):
 				# if at 0 then valid, runnable first item
 				if i != 0:
 					# print("HERE, NEED TO CHANGE {}".format(resource_list))
@@ -67,7 +67,10 @@ def check_head():
 		for user in os[resource]:
 			if os[resource][user][0] < 1 :
 				# change time except for the new head
-				one_timeunit()
+				if not has_changes:
+				  one_timeunit()
+				  has_changes = True
+
 
 #				print("WILL REMOVE {} from {}".format(os[resource][user],os[resource]))
 #				print("WILL POP {} FROM {}".format(user, memoize_list))
@@ -75,7 +78,6 @@ def check_head():
 				del os[resource][list(os[resource])[0]]
 #				print("NEW HEAD{}".format(os[resource]))
 #				print("NEW LIST{}".format(memoize_list), end="\n\n")
-				has_changes = True
 			break
 	
 	if has_changes:
@@ -135,7 +137,9 @@ def move_time():
 	print("\n\n")
 
 def main():
+	print("!"*70)
 	reorder()
+	i = 0
 	while not to_terminate():
 		move_time()
 
@@ -144,3 +148,4 @@ def main():
 
 if __name__ == "__main__":
 	main()
+
