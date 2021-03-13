@@ -34,6 +34,12 @@ for i in range(1,len(os)+1):
 # test value
 #os = {1: {1: [2, True], 2: [5, True], 3: [4, True]}, 2: {1:[2, True], 3: [4,True]}, 3 : {3:[2, True]}, 4: {2: [1, True], 3 : [1, True]}, 5 : {3 : [2, True]} }
 
+os = {1 : {1 : [4, True], 2 : [1, True]}, 2 : {1:[2, True], 2: [3, True]}, 3 : {1 : [2, True]}}
+
+# os = {1: {1: [1, True], 2: [1, True]}, 2: {1: [3, True], 3: [2, True]}, 3: {1: [1, True], 2: [4, True], 3: [4, True]}, 4: {2: [1, True], 3: [5, True]}}
+
+print(os)
+
 # to delete del dic[list(dic)[0]]
 def reorder():
 	global memoize_list 
@@ -44,15 +50,17 @@ def reorder():
 #		print(resource_list)
 		for i in range(len(resource_list)):
 			# valid first item
-			if resource_list[i][0] not in memoize_list and not(i>0 and resource_list[0][1]):
-				# if at 0 then valid, runnable first item
-				if i != 0:
-					# print("HERE, NEED TO CHANGE {}".format(resource_list))
-					resource_list.insert(0, resource_list.pop(i))
-		
-				resource_list[0][1][1] = False
-				memoize_list.append(resource_list[0][0])
-				break
+			if resource_list[i][0] not in memoize_list:
+#				print("PASSED FIRST CRITERIA {} {}".format(resource_list[i][0], resource_list[i]))
+				if i==0 or (i>0 and resource_list[0][1][1]):
+					# if at 0 then valid, runnable first item
+					if i != 0:
+#						print("HERE, NEED TO CHANGE {} to {}".format(resource_list[0][1],resource_list[i]))
+						resource_list.insert(0, resource_list.pop(i))
+			
+					resource_list[0][1][1] = False
+					memoize_list.append(resource_list[0][0])
+					break
 #		print(resource_list)
 		os[resource] = {key:value for (key, value) in resource_list}
 #		print(os[resource], end="\n\n")
@@ -65,7 +73,7 @@ def check_head():
 	
 	for resource in os:
 		for user in os[resource]:
-			if os[resource][user][0] < 1 :
+			if (os[resource][user][0] == 0 and not has_changes) or os[resource][user][0] < 0:
 				# change time except for the new head
 				if not has_changes:
 				  one_timeunit()

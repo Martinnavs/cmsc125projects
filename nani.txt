@@ -1,0 +1,281 @@
+{1: {1: [1, True], 2: [1, True]}, 2: {1: [3, True], 3: [2, True]}, 3: {1: [1, True], 2: [4, True], 3: [4, True]}, 4: {2: [1, True], 3: [5, True]}}
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+PASSED FIRST CRITERIA 1 [1, [1, True]]
+PASSED FIRST CRITERIA 3 [3, [2, True]]
+PASSED FIRST CRITERIA 2 [2, [4, True]]
+Resource x User for t=0
+------------------------------------------------------------
+Resource 1: user 1 currently using 1 to go before termination
+Users in Line:
+user 2, alloted time: 1, to use in: 1
+
+Resource 2: user 3 currently using 2 to go before termination
+Users in Line:
+user 1, alloted time: 3, to use in: 2
+
+Resource 3: user 2 currently using 4 to go before termination
+Users in Line:
+user 1, alloted time: 1, to use in: 4
+user 3, alloted time: 4, to use in: 5
+
+Resource 4: user 2 currently using - STALLED
+Users in Line:
+user 3, alloted time: 5, to use in: 1
+
+
+
+
+Resource x User for t=1
+------------------------------------------------------------
+Resource 1: user 1 currently using 0 to go before termination
+Users in Line:
+user 2, alloted time: 1, to use in: 0
+
+Resource 2: user 3 currently using 1 to go before termination
+Users in Line:
+user 1, alloted time: 3, to use in: 1
+
+Resource 3: user 2 currently using 3 to go before termination
+Users in Line:
+user 1, alloted time: 1, to use in: 3
+user 3, alloted time: 4, to use in: 4
+
+Resource 4: user 2 currently using - STALLED
+Users in Line:
+user 3, alloted time: 5, to use in: 1
+
+PASSED FIRST CRITERIA 1 [1, [3, True]]
+PASSED FIRST CRITERIA 3 [3, [4, True]]
+
+
+
+Resource x User for t=2
+------------------------------------------------------------
+Resource 1: user 2 currently using - STALLED
+Users in Line:
+
+Resource 2: user 1 currently using 3 to go before termination
+Users in Line:
+
+Resource 3: user 3 currently using 4 to go before termination
+Users in Line:
+user 2, alloted time: 2, to use in: 4
+user 1, alloted time: 1, to use in: 6
+
+Resource 4: user 2 currently using - STALLED
+Users in Line:
+user 3, alloted time: 5, to use in: 1
+
+
+
+
+Resource x User for t=3
+------------------------------------------------------------
+Resource 1: user 2 currently using - STALLED
+Users in Line:
+
+Resource 2: user 1 currently using 2 to go before termination
+Users in Line:
+
+Resource 3: user 3 currently using 3 to go before termination
+Users in Line:
+user 2, alloted time: 2, to use in: 3
+user 1, alloted time: 1, to use in: 5
+
+Resource 4: user 2 currently using - STALLED
+Users in Line:
+user 3, alloted time: 5, to use in: 1
+
+
+
+
+Resource x User for t=4
+------------------------------------------------------------
+Resource 1: user 2 currently using - STALLED
+Users in Line:
+
+Resource 2: user 1 currently using 1 to go before termination
+Users in Line:
+
+Resource 3: user 3 currently using 2 to go before termination
+Users in Line:
+user 2, alloted time: 2, to use in: 2
+user 1, alloted time: 1, to use in: 4
+
+Resource 4: user 2 currently using - STALLED
+Users in Line:
+user 3, alloted time: 5, to use in: 1
+
+
+
+
+Resource x User for t=5
+------------------------------------------------------------
+Resource 1: user 2 currently using - STALLED
+Users in Line:
+
+Resource 2: user 1 currently using 0 to go before termination
+Users in Line:
+
+Resource 3: user 3 currently using 1 to go before termination
+Users in Line:
+user 2, alloted time: 2, to use in: 1
+user 1, alloted time: 1, to use in: 3
+
+Resource 4: user 2 currently using - STALLED
+Users in Line:
+user 3, alloted time: 5, to use in: 1
+
+PASSED FIRST CRITERIA 1 [1, [1, True]]
+PASSED FIRST CRITERIA 3 [3, [5, True]]
+
+
+
+Resource x User for t=6
+------------------------------------------------------------
+Resource 1: user 2 currently using - STALLED
+Users in Line:
+
+Resource 2: FREE
+
+Resource 3: user 1 currently using 1 to go before termination
+Users in Line:
+user 2, alloted time: 2, to use in: 1
+
+Resource 4: user 3 currently using 5 to go before termination
+Users in Line:
+user 2, alloted time: 1, to use in: 5
+
+
+
+
+Resource x User for t=7
+------------------------------------------------------------
+Resource 1: user 2 currently using - STALLED
+Users in Line:
+
+Resource 2: FREE
+
+Resource 3: user 1 currently using 0 to go before termination
+Users in Line:
+user 2, alloted time: 2, to use in: 0
+
+Resource 4: user 3 currently using 4 to go before termination
+Users in Line:
+user 2, alloted time: 1, to use in: 4
+
+
+
+
+Resource x User for t=8
+------------------------------------------------------------
+Resource 1: user 2 currently using - STALLED
+Users in Line:
+
+Resource 2: FREE
+
+Resource 3: user 2 currently using 2 to go before termination
+Users in Line:
+
+Resource 4: user 3 currently using 3 to go before termination
+Users in Line:
+user 2, alloted time: 1, to use in: 3
+
+
+
+
+Resource x User for t=9
+------------------------------------------------------------
+Resource 1: user 2 currently using - STALLED
+Users in Line:
+
+Resource 2: FREE
+
+Resource 3: user 2 currently using 1 to go before termination
+Users in Line:
+
+Resource 4: user 3 currently using 2 to go before termination
+Users in Line:
+user 2, alloted time: 1, to use in: 2
+
+
+
+
+Resource x User for t=10
+------------------------------------------------------------
+Resource 1: user 2 currently using - STALLED
+Users in Line:
+
+Resource 2: FREE
+
+Resource 3: user 2 currently using 0 to go before termination
+Users in Line:
+
+Resource 4: user 3 currently using 1 to go before termination
+Users in Line:
+user 2, alloted time: 1, to use in: 1
+
+PASSED FIRST CRITERIA 2 [2, [1, True]]
+
+
+
+Resource x User for t=11
+------------------------------------------------------------
+Resource 1: user 2 currently using 1 to go before termination
+Users in Line:
+
+Resource 2: FREE
+
+Resource 3: FREE
+
+Resource 4: user 2 currently using - STALLED
+Users in Line:
+
+
+
+
+Resource x User for t=12
+------------------------------------------------------------
+Resource 1: user 2 currently using 0 to go before termination
+Users in Line:
+
+Resource 2: FREE
+
+Resource 3: FREE
+
+Resource 4: user 2 currently using - STALLED
+Users in Line:
+
+PASSED FIRST CRITERIA 2 [2, [1, True]]
+
+
+
+Resource x User for t=13
+------------------------------------------------------------
+Resource 1: FREE
+
+Resource 2: FREE
+
+Resource 3: FREE
+
+Resource 4: user 2 currently using 1 to go before termination
+Users in Line:
+
+
+
+
+Resource x User for t=14
+------------------------------------------------------------
+Resource 1: FREE
+
+Resource 2: FREE
+
+Resource 3: FREE
+
+Resource 4: user 2 currently using 0 to go before termination
+Users in Line:
+
+
+
+
+Program Terminated.
