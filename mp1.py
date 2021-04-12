@@ -1,69 +1,133 @@
-# necessary ba nga naay muqueue for every resource? at least one user to use a resource?
-# for current approach, stall if tanan possible user naggamit sa some resource and naay lain resource where sila ang naa sa first
-# to handle case when 1 user ra and 1< ang resources and dapat naay muqueue each (mawala if dili needed) or katong case stated
+"""
+A. Navarez's Submission for CMSC 125 Machine Problem 1
+Multiprogramming Simulation
 
-from random import randint
+Assumptions:
+- One user cannot requeue to the same resource
+e.g. There cannot be 2 records of User 1 requests
+to some Resource X
+- The number of users that will use/request for a certain resource is randomly generated (0-30).
+- If a user is enqueued in two or more resources, the following rules are
+  to be followed:
+
+  1. User priorities are based on their number
+    e.g. User 1 goes first than User 2, User 2 than User 3, and so on
+
+  2. Users with high priorities that are enqueued in multiple resources
+     are prioritized based on the Resource number
+    e.g. User 1 is queued in both Resource 1 and Resource 2, User 1 uses
+         Resource 1 rather than Resource 2
+
+  3. In the case where Rule 2 is present and there are other queued users,
+     Rule 1 and Rule 2 are applied to the queue except the head. The head will be placed in the second position of the queue and the User determined by both rules becomes the head.
+    e.g.
+      Before Rule 3:
+      Resource 1 queued users - 1, 2, 3
+      Resource 2 queued users - 1, 4, 5
+      Resource 3 queued users - 1, 4, 6
+
+      After Rule 3:
+      Resource 1 queued users - 1, 2, 3
+      Resource 2 queued users - 4, 1, 5 (1 currently using another resource, Resource 2 is prior to Resource 3 so 4 uses it)
+      Resource 3 queued users - 6, 1, 4 (1 and 4 currently using another resource)
+
+  4. In the case where Rule 2 is present and there are no other queued users OR
+     all users in the queue are currently using other resources,the system
+     STALLS the usage of the user/s in a that resource, following
+     the prioritization in Rule 2.
+    e.g.
+      Resource 1 queued users - 1
+      Resource 2 queued users - 2
+      Resource 3 queued users - 1
+      Resource 4 queued users - 1, 2
+
+      After Rule 4
+      Resource 1 queued users - 1 (active)
+      Resource 2 queued users - 2 (active)
+      Resource 3 queued users - 1 (STALLED) 
+                          [no other queued users, currently using resource 1]
+      Resource 4 queued users - 1 (STALLED), 2 (cannot use rule 3)
+                          [has queued users, all currently using some other]
+
+- Initialization will start at t=0, and updates will proceed based on the t value, which represents the elapsed time unit
+- Printing per unit time indicates (a) the resource, (b) the user currently 
+using it with its status (STALLED or time units remaining) or FREE if there 
+are no users, and (c) other enqueued users with their alloted time and the 
+time when they are able to use the resource
+- Program terminates once all resources are free
+"""
+
+from random import randint, sample, choice
 import gc
 
-os = {key:value for (key, value) in [(x+1,{}) for x in range(randint(1, 5))]}
-users = randint(1, 5)
+# INITIALIZATION PHASE
+
+# can edit this for random scope, which determines the 
+# number of users, resources, and time allocated
+actual_val = 30
+
+resources = sample(range(1,31), randint(1,actual_val))
+resources.sort()
+os = {key:value for (key, value) in [(x,{}) for x in resources]}
+os = dict(sorted(os.items(), key=lambda x: x[0]))
+
+users = sample(range(1,31), randint(1, actual_val))
+
 t = 0
 memoize_list = []
+original_time = {}
 
-for i in range(1,len(os)+1):
+print("!"*70)
+print("Generated resources: " + str(resources))
+
+for resource in os:
 	avail_users = [] 
-	for j in range(randint(1,5)):
+	for j in range(randint(0, actual_val)):
 		# assuming nga dili pwede muenqueue si user balik sa usa ka resource
 
-		user = randint(1, users)
+		user = choice(users)
 
 		while(user in avail_users):
-			user = randint(1, users)
+			user = choice(users)
 
-		avail_users.append((user, [randint(1,5), True]))
+		rand_time = randint(1,actual_val)
+		original_time[user] = None #initializing 
+		avail_users.append((user, [rand_time, True]))
 
 		# if 1 user ra and added na into os, break 
-		if users == 1 or len(avail_users)==0:
+		if len(users)== 1 or len(avail_users)==0:
 			break 
 	
 	if len(avail_users) > 1:
 		avail_users.sort(key = lambda x: x[0])
 
-	os[i] = {key:value for (key,value) in avail_users}
+	os[resource] = {key:value for (key,value) in avail_users}
 
-# test value
-#os = {1: {1: [2, True], 2: [5, True], 3: [4, True]}, 2: {1:[2, True], 3: [4,True]}, 3 : {3:[2, True]}, 4: {2: [1, True], 3 : [1, True]}, 5 : {3 : [2, True]} }
+users.sort()
+print("Generated users: " + str(users))
 
-os = {1 : {1 : [4, True], 2 : [1, True]}, 2 : {1:[2, True], 2: [3, True]}, 3 : {1 : [2, True]}}
+# END OF INITIALIZATION
 
-# os = {1: {1: [1, True], 2: [1, True]}, 2: {1: [3, True], 3: [2, True]}, 3: {1: [1, True], 2: [4, True], 3: [4, True]}, 4: {2: [1, True], 3: [5, True]}}
-
-print(os)
-
-# to delete del dic[list(dic)[0]]
 def reorder():
 	global memoize_list 
 	global os
 
 	for resource in os:
 		resource_list = [list(x) for x in list(os[resource].items())]
-#		print(resource_list)
 		for i in range(len(resource_list)):
 			# valid first item
 			if resource_list[i][0] not in memoize_list:
-#				print("PASSED FIRST CRITERIA {} {}".format(resource_list[i][0], resource_list[i]))
 				if i==0 or (i>0 and resource_list[0][1][1]):
 					# if at 0 then valid, runnable first item
 					if i != 0:
-#						print("HERE, NEED TO CHANGE {} to {}".format(resource_list[0][1],resource_list[i]))
 						resource_list.insert(0, resource_list.pop(i))
 			
 					resource_list[0][1][1] = False
 					memoize_list.append(resource_list[0][0])
+					original_time[resource_list[0][0]] = resource_list[0][1][0]
 					break
-#		print(resource_list)
+
 		os[resource] = {key:value for (key, value) in resource_list}
-#		print(os[resource], end="\n\n")
 		gc.collect()
 
 def check_head():
@@ -79,13 +143,8 @@ def check_head():
 				  one_timeunit()
 				  has_changes = True
 
-
-#				print("WILL REMOVE {} from {}".format(os[resource][user],os[resource]))
-#				print("WILL POP {} FROM {}".format(user, memoize_list))
 				memoize_list.remove(user)
 				del os[resource][list(os[resource])[0]]
-#				print("NEW HEAD{}".format(os[resource]))
-#				print("NEW LIST{}".format(memoize_list), end="\n\n")
 			break
 	
 	if has_changes:
@@ -99,7 +158,6 @@ def print_os():
 		print("Resource {}:".format(resource), end = " ")
 		if len(os[resource]) == 0:
 			print("FREE")
-
 		else:
 			timeval = 0
 			first = True
@@ -109,8 +167,14 @@ def print_os():
 					print("user {} currently using ".format(user), end="" ) 
 					if os[resource][user][1]:
 						print("- STALLED")
+						print("[" + "!"*10 + "]")
 					else:
 						print("{} to go before termination".format(et))
+						preq = "=" *  (original_time[user]-et)
+						arr = ">" if et!=0 else ""
+						spc = " " * (et)
+						print("[" + preq + arr + spc + "]", end ="")
+						print(" DONE USING")if et == 0 else print("")
 					first = False
 					print("Users in Line:")
 				else:
@@ -147,7 +211,7 @@ def move_time():
 def main():
 	print("!"*70)
 	reorder()
-	i = 0
+
 	while not to_terminate():
 		move_time()
 
@@ -156,4 +220,3 @@ def main():
 
 if __name__ == "__main__":
 	main()
-
